@@ -1,0 +1,73 @@
+import pyodbc
+
+#DB 연결 (DB addr, DB account id, DB account pwd, DB addr port)
+#DB 조회 (procedure or select)
+# 토큰 : export INFLUXDB_TOKEN=lo3_ITMkhVF5jsVZIV0rttr8QLkcMex742KyNtljhX0SPRIW84S5c9gL3ZFIdbx26fsMLC5Qagd7kow24NQtaw==
+
+#클라이언트 초기화
+import influxdb_client, os, time
+from influxdb_client import InfluxDBClient, Point, WritePrecision
+from influxdb_client.client.write_api import SYNCHRONOUS
+
+token = os.environ.get("lo3_ITMkhVF5jsVZIV0rttr8QLkcMex742KyNtljhX0SPRIW84S5c9gL3ZFIdbx26fsMLC5Qagd7kow24NQtaw==")
+org = "hd"
+url = "http://localhost:8086"
+
+write_client = influxdb_client.InfluxDBClient(url=url, token=token, org=org)
+
+#버킷 생성 (저장할 장소 = 버킷)
+bucket = "<BUCKET>"
+
+write_api = write_client.write_api(write_options=SYNCHRONOUS)
+
+for value in range(5):
+    point = (
+        Point("measurement1")
+        .tag("tagname1", "tagvalue1")
+        .field("field1", value)
+    )
+    write_api.write(bucket=bucket, org="hd", record=point)
+    time.sleep(1)  # separate points by 1 second
+
+query_api = write_client.query_api()
+
+query = """from(bucket: "hd")
+ |> range(start: -10m)
+ |> filter(fn: (r) => r._measurement == "measurement1")"""
+tables = query_api.query(query, org="hd")
+
+for table in tables:
+  for record in table.records:
+    print(record)
+
+# influxdb 쿼리문
+# from(bucket: "hd")
+# |> range(start: -10m)
+
+query_api = write_client.query_api()
+
+query = """from(bucket: "hd")
+ |> range(start: -10m)
+ |> filter(fn: (r) => r._measurement == "measurement1")"""
+tables = query_api.query(query, org="hd")
+
+for table in tables:
+  for record in table.records:
+    print(record)
+
+# 집계함수 (모든 행의 값을 가져와 집계연산을 수행하는데 사용)
+# from(bucket: "hd")
+#   |> range(start: -10m) # find data points in last 10 minutes
+#   |> mean()
+
+query_api = write_client.query_api()
+
+query = """from(bucket: "hd")
+  |> range(start: -10m)
+  |> filter(fn: (r) => r._measurement == "measurement1")
+  |> mean()"""
+tables = query_api.query(query, org="hd")
+
+for table in tables:
+    for record in table.records:
+        print(record)
