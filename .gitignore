@@ -1,0 +1,8 @@
+# Ignore virtual environment folder created by venv
+.venv/
+
+# Ignore log folder
+log/
+
+# Ignore IntelliJ IDEA folder
+.idea/
