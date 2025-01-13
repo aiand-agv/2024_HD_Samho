@@ -1,0 +1,63 @@
+.modal-wrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 2000;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 15px; /* 모달 전체에 둥근 모서리 */
+  overflow: hidden; /* 내용이 모서리 밖으로 넘지 않도록 */
+}
+.modal-content {
+  background-color: #fff;
+  min-width: 600px;
+  min-height: 300px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 세로 중앙 정렬 */
+  overflow: hidden; /* 내용이 모서리 밖으로 넘지 않도록 */
+  border-radius: 15px; /* 모달 전체에 둥근 모서리 */
+}
+
+.modal-title {
+  height: 80px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  color: #000;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  border-top-left-radius: 15px; /* 상단 좌측 둥글게 */
+  border-top-right-radius: 15px; /* 상단 우측 둥글게 */
+  border-bottom: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+.modal-message {
+  display: flex;
+  background-color: #fff;
+  color: 000;
+  align-items: center;
+  font-size: 25px;
+  justify-content: center;
+  font-weight: bold;
+  text-align: center;
+  height: 100%;
+}
